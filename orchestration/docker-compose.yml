@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    volumes:
+      - postgres_db_volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+    restart: always
+
+  airflow-webserver:
+    image: apache/airflow:2.5.0
+    depends_on:
+      - postgres
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=true
+      - AIRFLOW__CORE__LOAD_EXAMPLES=false
+      - AIRFLOW__API__AUTH_BACKENDS=airflow.api.auth.backend.basic_auth
+      - AIRFLOW__WEBSERVER__SECRET_KEY=a25mQ1FHTUh3MnFRSk5KMEIyVVU2YmN0VGRyYTVXY08=
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
+    command: webserver
+
+  airflow-scheduler:
+    image: apache/airflow:2.5.0
+    depends_on:
+      - postgres
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=true
+      - AIRFLOW__CORE__LOAD_EXAMPLES=false
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+    healthcheck:
+      test: ["CMD-SHELL", 'airflow jobs check --job-type SchedulerJob --hostname "$${HOSTNAME}"']
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
+    command: scheduler
+
+  airflow-init:
+    image: apache/airflow:2.5.0
+    depends_on:
+      - postgres
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=true
+      - AIRFLOW__CORE__LOAD_EXAMPLES=false
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+    command: >
+      bash -c "
+        airflow db init &&
+        airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com --password admin
+      "
+    restart: "no"
+
+volumes:
+  postgres_db_volume:
+
+networks:
+  default:
+    name: animeverse_network
+    external: true
