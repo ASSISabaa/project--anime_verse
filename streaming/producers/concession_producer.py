@@ -149,4 +149,79 @@ class ConcessionSalesProducer:
                 terminals.append(f"{cinema['cinema_id']}_POS_{terminal_num:02d}")
         return terminals
     
+    def _select_weighted_item(self) -> Dict[str, Any]:
+        """Select item with popularity weighting"""
+        # Popular items are more likely to be sold
+        popular_threshold = 0.7
+        popular_items = [item for item in self.concession_items if item['popularity'] > popular_threshold]
+        
+        # 70% chance to select popular item, 30% random
+        if popular_items and random.random() < 0.7:
+            return random.choice(popular_items)
+        else:
+            return random.choice(self.concession_items)
+    
+    def _generate_sale_timestamp(self) -> datetime:
+        """Generate sale timestamp with occasional late data"""
+        base_time = datetime.now()
+        
+        # Check if this should be late data
+        if random.random() < self.settings['late_data_probability']:
+            # Generate late data (up to max_late_hours old)
+            hours_late = random.uniform(1, self.settings['max_late_hours'])
+            sale_time = base_time - timedelta(hours=hours_late)
+            logger.debug(f"Generated late concession data: {hours_late:.1f} hours late")
+        else:
+            # Normal data (within last few hours - concessions sold around showtime)
+            hours_ago = random.uniform(0, 3)
+            sale_time = base_time - timedelta(hours=hours_ago)
+        
+        return sale_time
+    
+    def _get_quantity_for_item(self, item: Dict[str, Any]) -> int:
+        """Determine quantity based on item type"""
+        category = item['category']
+        
+        if category == 'Combo Deals':
+            # Combos are usually 1 per customer/group
+            return random.choices([1, 2], weights=[80, 20])[0]
+        elif category == 'Beverages':
+            # People often buy multiple drinks
+            return random.choices([1, 2, 3, 4], weights=[60, 25, 10, 5])[0]
+        elif category == 'Snacks':
+            # Snacks can be shared
+            return random.choices([1, 2, 3], weights=[70, 25, 5])[0]
+        elif category == 'Anime Specials':
+            # Special items are usually 1 per person
+            return random.choices([1, 2], weights=[85, 15])[0]
+        else:
+            return 1
+    
+    def generate_sale(self) -> ConcessionSale:
+        """Generate a single concession sale"""
+        item = self._select_weighted_item()
+        customer = random.choice(self.customers)
+        screening = random.choice(self.screenings)
+        terminal = random.choice(self.terminals)
+        
+        # Extract cinema from terminal ID
+        cinema_id = terminal.split('_')[0] + '_' + terminal.split('_')[1]
+        cinema = next(c for c in self.cinemas if c['cinema_id'] == cinema_id)
+        
+        sale_time = self._generate_sale_timestamp()
+        quantity = self._get_quantity_for_item(item)
+        
+        return ConcessionSale(
+            sale_id=str(uuid.uuid4()),
+            screening_id=screening,
+            customer_id=customer,
+            item_name=item['name'],
+            item_quantity=quantity,
+            item_unit_price=item['price'],
+            sale_timestamp=sale_time.isoformat(),
+            pos_terminal_id=terminal,
+            cinema_location=cinema['name'],
+            item_category=item['category']
+        )
+    
   
