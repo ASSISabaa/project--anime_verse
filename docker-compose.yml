@@ -103,40 +103,36 @@ services:
       echo 'Kafka topics created successfully!'
       "
 
-  # Spark Processing - Working Bitnami Version
+ 
   spark-master:
-    image: bitnami/spark:3.4.1
+    image: bitnami/spark:3.4
     container_name: animeverse-spark-master
+    hostname: spark-master
     environment:
       - SPARK_MODE=master
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
       - SPARK_RPC_ENCRYPTION_ENABLED=no
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
-      - SPARK_USER=spark
-      - JAVA_HOME=/opt/bitnami/java
     ports:
-      - "8081:8080"
-      - "7077:7077"
-    volumes:
-      - ./processing/spark_apps:/opt/bitnami/spark/work-dir
-      - ./processing/jars:/opt/bitnami/spark/jars
+      - "8081:8080"  # Web UI
+      - "7077:7077"  # Cluster port
     networks:
       - animeverse_network
 
   spark-worker-1:
-    image: bitnami/spark:3.4.1
+    image: bitnami/spark:3.4
     container_name: animeverse-spark-worker-1
+    hostname: spark-worker-1
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark-master:7077
-      - SPARK_WORKER_MEMORY=1G
+      - SPARK_WORKER_MEMORY=2G
       - SPARK_WORKER_CORES=2
-      - SPARK_USER=spark
-      - JAVA_HOME=/opt/bitnami/java
-    volumes:
-      - ./processing/spark_apps:/opt/bitnami/spark/work-dir
-      - ./processing/jars:/opt/bitnami/spark/jars
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
     networks:
       - animeverse_network
     depends_on:
