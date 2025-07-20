@@ -1,0 +1,41 @@
+[
+  {
+    "transaction_id": "550e8400-e29b-41d4-a716-446655440000",
+    "product_id": "PROD_00001",
+    "customer_id": "CUST_000001",
+    "quantity_purchased": 2,
+    "unit_price": 29.99,
+    "transaction_timestamp": "2025-07-20T14:30:00.000Z",
+    "event_type": "sale",
+    "channel": "in-store",
+    "store_id": "STORE_01",
+    "cashier_id": "CASH_001",
+    "payment_method": "Credit Card"
+  },
+  {
+    "transaction_id": "550e8400-e29b-41d4-a716-446655440001",
+    "product_id": "PROD_00025",
+    "customer_id": "CUST_000002",
+    "quantity_purchased": 1,
+    "unit_price": 89.99,
+    "transaction_timestamp": "2025-07-20T14:32:15.000Z",
+    "event_type": "sale",
+    "channel": "online",
+    "store_id": "STORE_01",
+    "cashier_id": "CASH_002",
+    "payment_method": "Digital Wallet"
+  },
+  {
+    "transaction_id": "550e8400-e29b-41d4-a716-446655440002",
+    "product_id": "PROD_00103",
+    "customer_id": "CUST_000003",
+    "quantity_purchased": 3,
+    "unit_price": 15.50,
+    "transaction_timestamp": "2025-07-20T14:35:42.000Z",
+    "event_type": "sale",
+    "channel": "in-store",
+    "store_id": "STORE_02",
+    "cashier_id": "CASH_003",
+    "payment_method": "Cash"
+  }
+]

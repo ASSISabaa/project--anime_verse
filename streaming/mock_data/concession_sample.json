@@ -1,0 +1,50 @@
+[
+  {
+    "sale_id": "770e8400-e29b-41d4-a716-446655440000",
+    "screening_id": "SCREEN_000001",
+    "customer_id": "CUST_000001",
+    "item_name": "Movie Combo - Medium",
+    "item_quantity": 1,
+    "item_unit_price": 16.00,
+    "sale_timestamp": "2025-07-20T18:45:00.000Z",
+    "pos_terminal_id": "CINEMA_01_POS_01",
+    "cinema_location": "AnimeVerse Cinema Tokyo",
+    "item_category": "Combo Deals"
+  },
+  {
+    "sale_id": "770e8400-e29b-41d4-a716-446655440001",
+    "screening_id": "SCREEN_000001",
+    "customer_id": "CUST_000001",
+    "item_name": "Attack on Titan Popcorn Bucket",
+    "item_quantity": 1,
+    "item_unit_price": 15.00,
+    "sale_timestamp": "2025-07-20T18:46:30.000Z",
+    "pos_terminal_id": "CINEMA_01_POS_01",
+    "cinema_location": "AnimeVerse Cinema Tokyo",
+    "item_category": "Anime Specials"
+  },
+  {
+    "sale_id": "770e8400-e29b-41d4-a716-446655440002",
+    "screening_id": "SCREEN_000002",
+    "customer_id": "CUST_000004",
+    "item_name": "Soft Drink Small",
+    "item_quantity": 1,
+    "item_unit_price": 4.50,
+    "sale_timestamp": "2025-07-20T16:15:00.000Z",
+    "pos_terminal_id": "CINEMA_02_POS_01",
+    "cinema_location": "AnimeVerse Cinema Osaka",
+    "item_category": "Beverages"
+  },
+  {
+    "sale_id": "770e8400-e29b-41d4-a716-446655440003",
+    "screening_id": "SCREEN_000002",
+    "customer_id": "CUST_000004",
+    "item_name": "Popcorn Small",
+    "item_quantity": 1,
+    "item_unit_price": 6.50,
+    "sale_timestamp": "2025-07-20T16:16:15.000Z",
+    "pos_terminal_id": "CINEMA_02_POS_01",
+    "cinema_location": "AnimeVerse Cinema Osaka",
+    "item_category": "Snacks"
+  }
+]
