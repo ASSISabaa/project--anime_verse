@@ -224,4 +224,89 @@ class ConcessionSalesProducer:
             item_category=item['category']
         )
     
-  
+    def send_sale(self, sale: ConcessionSale):
+        """Send sale to Kafka topic"""
+        try:
+            # Use screening_id as key for partitioning (same as cinema tickets)
+            self.producer.send(
+                topic=self.topic,
+                key=sale.screening_id,
+                value=sale.to_dict(),
+                timestamp_ms=int(datetime.fromisoformat(sale.sale_timestamp).timestamp() * 1000)
+            )
+            
+            logger.debug(f"Sent concession sale: {sale.sale_id} "
+                        f"for screening {sale.screening_id}")
+            
+        except Exception as e:
+            logger.error(f"Failed to send sale {sale.sale_id}: {e}")
+    
+    def run_producer(self, duration_minutes: int = None):
+        """Run the producer for specified duration"""
+        logger.info(f"Starting concession sales producer...")
+        logger.info(f"Target rate: {self.settings['messages_per_second']} messages/second")
+        
+        message_count = 0
+        start_time = time.time()
+        last_burst = time.time()
+        
+        try:
+            while True:
+                # Check if we should exit (for testing)
+                if duration_minutes and (time.time() - start_time) > (duration_minutes * 60):
+                    break
+                
+                # Check for burst period (pre-show rush)
+                current_time = time.time()
+                is_burst = (current_time - last_burst) % (self.settings['burst_every_minutes'] * 60) < 90
+                
+                if is_burst:
+                    rate = self.settings['messages_per_second'] * self.settings['burst_multiplier']
+                    if current_time - last_burst > (self.settings['burst_every_minutes'] * 60):
+                        last_burst = current_time
+                        logger.info(f"Starting concession rush - rate: {rate} msg/sec")
+                else:
+                    rate = self.settings['messages_per_second']
+                
+                # Generate and send sale
+                sale = self.generate_sale()
+                self.send_sale(sale)
+                
+                message_count += 1
+                
+                # Log progress
+                if message_count % 50 == 0:
+                    elapsed = time.time() - start_time
+                    actual_rate = message_count / elapsed
+                    logger.info(f"Sent {message_count} concession sales. "
+                               f"Rate: {actual_rate:.2f} msg/sec")
+                
+                # Sleep to maintain rate
+                sleep_time = 1.0 / rate
+                time.sleep(sleep_time)
+                
+        except KeyboardInterrupt:
+            logger.info("Concession producer stopped by user")
+        except Exception as e:
+            logger.error(f"Concession producer error: {e}")
+        finally:
+            # Flush and close producer
+            self.producer.flush()
+            self.producer.close()
+            
+            elapsed = time.time() - start_time
+            logger.info(f"Concession producer finished. Sent {message_count} sales in {elapsed:.1f}s")
+
+def main():
+    """Main function to run the producer"""
+    producer = ConcessionSalesProducer()
+    
+    # Run for 2 minutes for testing, or indefinitely for production
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == 'test':
+        producer.run_producer(duration_minutes=2)
+    else:
+        producer.run_producer()
+
+if __name__ == "__main__":
+    main()
