@@ -1,0 +1,41 @@
+[
+  {
+    "booking_id": "660e8400-e29b-41d4-a716-446655440000",
+    "customer_id": "CUST_000001",
+    "screening_id": "SCREEN_000001",
+    "anime_title_raw": "Demon Slayer: Mugen Train",
+    "showtime_scheduled": "2025-07-20T19:00:00.000Z",
+    "ticket_type": "Adult",
+    "seat_count": 2,
+    "booking_timestamp": "2025-07-20T14:25:30.000Z",
+    "booking_channel": "website",
+    "cinema_location": "AnimeVerse Cinema Tokyo",
+    "screen_number": 1
+  },
+  {
+    "booking_id": "660e8400-e29b-41d4-a716-446655440001",
+    "customer_id": "CUST_000004",
+    "screening_id": "SCREEN_000002",
+    "anime_title_raw": "Your Name",
+    "showtime_scheduled": "2025-07-20T16:30:00.000Z",
+    "ticket_type": "Student",
+    "seat_count": 1,
+    "booking_timestamp": "2025-07-20T14:28:15.000Z",
+    "booking_channel": "mobile-app",
+    "cinema_location": "AnimeVerse Cinema Osaka",
+    "screen_number": 2
+  },
+  {
+    "booking_id": "660e8400-e29b-41d4-a716-446655440002",
+    "customer_id": "CUST_000005",
+    "screening_id": "SCREEN_000003",
+    "anime_title_raw": "Attack on Titan: Final Season",
+    "showtime_scheduled": "2025-07-20T22:00:00.000Z",
+    "ticket_type": "Premium",
+    "seat_count": 2,
+    "booking_timestamp": "2025-07-20T14:30:45.000Z",
+    "booking_channel": "box-office",
+    "cinema_location": "AnimeVerse Cinema Kyoto",
+    "screen_number": 1
+  }
+]
