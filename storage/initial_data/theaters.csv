@@ -1,0 +1,4 @@
+theater_id,cinema_name,location,capacity,screen_type,operating_hours
+THR001,AnimeVerse Cinema 1,Main Hall,120,Standard,09:00-23:00
+THR002,AnimeVerse Cinema 2,Side Hall,80,Premium,10:00-22:00
+THR003,AnimeVerse Cinema 3,VIP Hall,50,IMAX,11:00-21:00

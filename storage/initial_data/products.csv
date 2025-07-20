@@ -1,0 +1,11 @@
+product_id,product_name,category,anime_title_id,base_price,supplier_id,format
+PROD001,One Piece Figure - Luffy,Figure,ANI001,29.99,SUP001,Physical
+PROD002,Attack on Titan T-Shirt,T-Shirt,ANI002,19.99,SUP002,Physical
+PROD003,Demon Slayer Mug,Mug,ANI003,14.99,SUP001,Physical
+PROD004,My Hero Academia Poster,Poster,ANI004,9.99,SUP003,Physical
+PROD005,Dragon Ball Z Keychain,Accessory,ANI005,7.99,SUP002,Physical
+PROD006,Naruto Headband,Accessory,ANI006,12.99,SUP001,Physical
+PROD007,Bleach Manga Vol.1,Manga,ANI007,8.99,SUP004,Physical
+PROD008,Hunter x Hunter Sticker Pack,Sticker,ANI008,5.99,SUP003,Physical
+PROD009,Fullmetal Alchemist Notebook,Stationery,ANI009,11.99,SUP002,Physical
+PROD010,Death Note Replica,Replica,ANI010,24.99,SUP004,Physical

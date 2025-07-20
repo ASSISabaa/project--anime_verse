@@ -1,0 +1,11 @@
+customer_id,name,email,signup_date,preferred_genre,loyalty_tier,segment
+CUST001,Luffy Monkey,luffy@animeverse.com,2023-01-15,Action,Gold,Enthusiast
+CUST002,Mikasa Ackerman,mikasa@animeverse.com,2023-02-20,Action,Silver,Regular
+CUST003,Tanjiro Kamado,tanjiro@animeverse.com,2023-03-10,Action,Gold,Enthusiast
+CUST004,Deku Midoriya,deku@animeverse.com,2023-01-25,Action,Bronze,Casual
+CUST005,Goku Son,goku@animeverse.com,2022-12-01,Action,Platinum,VIP
+CUST006,Naruto Uzumaki,naruto@animeverse.com,2023-02-14,Action,Gold,Enthusiast
+CUST007,Ichigo Kurosaki,ichigo@animeverse.com,2023-04-05,Action,Silver,Regular
+CUST008,Gon Freecss,gon@animeverse.com,2023-03-20,Adventure,Gold,Enthusiast
+CUST009,Edward Elric,edward@animeverse.com,2023-01-30,Adventure,Silver,Regular
+CUST010,Light Yagami,light@animeverse.com,2023-02-28,Thriller,Bronze,Casual
